@@ -37,7 +37,7 @@ EXTRACTION OPTIONS  (run during Extract + Optimize)
   Audio Degradation    Convert FLAC to MP3 128kbps (saves ~65% audio size)
 
 NETWORK
-  Firewall Block       Block D2R.exe outbound connections (eliminates launch delay)
+  Firewall Block;       Block D2R.exe outbound connections (eliminates launch delay)
 
 
 NOTES
