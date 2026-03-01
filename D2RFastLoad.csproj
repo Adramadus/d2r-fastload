@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Adramadus_D2R_FastLoad</AssemblyName>
+    <RootNamespace>D2RFastLoad</RootNamespace>
+    <AssemblyTitle>Adramadus D2R Fast Load</AssemblyTitle>
+    <Version>2.0.0</Version>
+    <FileVersion>2.0.0.0</FileVersion>
+    <!-- Icon is optional — add Resources\icon.ico to enable -->
+    <ApplicationIcon Condition="Exists('Resources\icon.ico')">Resources\icon.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Optimize>true</Optimize>
+    <!-- Single self-contained exe — no .NET install required on end-user machine -->
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Extractor tool: place d2r_bulk_extract.exe in Resources\ before building -->
+    <EmbeddedResource Include="Resources\d2r_bulk_extract.exe"
+                      Condition="Exists('Resources\d2r_bulk_extract.exe')"/>
+    <!-- Audio SFX: place press.mp3 scan.mp3 success.mp3 error.mp3 launch.mp3 in Resources\audio\ -->
+    <EmbeddedResource Include="Resources\audio\*.mp3"/>
+    <!-- App icon (optional) -->
+    <Resource Include="Resources\icon.ico"
+              Condition="Exists('Resources\icon.ico')"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- WMI access for hardware profile detection -->
+    <PackageReference Include="System.Management" Version="8.0.0"/>
+  </ItemGroup>
+
+</Project>

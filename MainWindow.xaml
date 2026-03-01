@@ -1,0 +1,1234 @@
+<Window x:Class="D2RFastLoad.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+        Title="Adramadus  D2R Fast Load  v2.0.0"
+
+        Width="840" Height="820"
+
+        MinWidth="640" MinHeight="580"
+
+        Background="#0d0d1a"
+
+        WindowStartupLocation="CenterScreen"
+
+        UseLayoutRounding="True"
+
+        TextOptions.TextFormattingMode="Display">
+
+  <Window.Resources>
+
+    <Style TargetType="TextBlock">
+
+      <Setter Property="Foreground" Value="#c0c0d0"/>
+
+    </Style>
+
+    <Style TargetType="CheckBox">
+
+      <Setter Property="Foreground" Value="#c0c0d0"/>
+
+      <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+    </Style>
+
+    <Style TargetType="Slider">
+
+      <Setter Property="Foreground" Value="#e08828"/>
+
+    </Style>
+
+    <Style x:Key="BtnBase" TargetType="Button">
+
+      <Setter Property="Background" Value="#1a1a30"/>
+
+      <Setter Property="Foreground" Value="#c0c0d0"/>
+
+      <Setter Property="BorderBrush" Value="#35355a"/>
+
+      <Setter Property="BorderThickness" Value="1"/>
+
+      <Setter Property="Padding" Value="14,8"/>
+
+      <Setter Property="Cursor" Value="Hand"/>
+
+      <Setter Property="Template">
+
+        <Setter.Value>
+
+          <ControlTemplate TargetType="Button">
+
+            <Border Background="{TemplateBinding Background}"
+
+                    BorderBrush="{TemplateBinding BorderBrush}"
+
+                    BorderThickness="{TemplateBinding BorderThickness}"
+
+                    CornerRadius="3" Padding="{TemplateBinding Padding}">
+
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+            </Border>
+
+            <ControlTemplate.Triggers>
+
+              <Trigger Property="IsMouseOver" Value="True">
+
+                <Setter Property="Background" Value="#28284a"/>
+
+              </Trigger>
+
+              <Trigger Property="IsPressed" Value="True">
+
+                <Setter Property="Background" Value="#101020"/>
+
+              </Trigger>
+
+              <Trigger Property="IsEnabled" Value="False">
+
+                <Setter Property="Opacity" Value="0.35"/>
+
+              </Trigger>
+
+            </ControlTemplate.Triggers>
+
+          </ControlTemplate>
+
+        </Setter.Value>
+
+      </Setter>
+
+    </Style>
+
+    <Style x:Key="BtnAccent" TargetType="Button" BasedOn="{StaticResource BtnBase}">
+
+      <Setter Property="Background" Value="#a05010"/>
+
+      <Setter Property="Foreground" Value="#ffffff"/>
+
+      <Setter Property="BorderBrush" Value="#d07020"/>
+
+      <Setter Property="FontWeight" Value="Bold"/>
+
+    </Style>
+
+    <Style x:Key="BtnGreen" TargetType="Button" BasedOn="{StaticResource BtnBase}">
+
+      <Setter Property="Background" Value="#0a3020"/>
+
+      <Setter Property="Foreground" Value="#60d090"/>
+
+      <Setter Property="BorderBrush" Value="#20a060"/>
+
+    </Style>
+
+    <Style x:Key="BtnRed" TargetType="Button" BasedOn="{StaticResource BtnBase}">
+
+      <Setter Property="Background" Value="#2a0808"/>
+
+      <Setter Property="Foreground" Value="#e06060"/>
+
+      <Setter Property="BorderBrush" Value="#803030"/>
+
+    </Style>
+
+    <Style x:Key="BtnGhost" TargetType="Button" BasedOn="{StaticResource BtnBase}">
+
+      <Setter Property="Background" Value="Transparent"/>
+
+      <Setter Property="BorderBrush" Value="Transparent"/>
+
+      <Setter Property="Foreground" Value="#504060"/>
+
+    </Style>
+
+    <Style x:Key="BtnTeal" TargetType="Button" BasedOn="{StaticResource BtnBase}">
+
+      <Setter Property="Background" Value="#0a2828"/>
+
+      <Setter Property="Foreground" Value="#50c0b0"/>
+
+      <Setter Property="BorderBrush" Value="#1a7060"/>
+
+    </Style>
+
+    <Style x:Key="SectionLabel" TargetType="TextBlock">
+
+      <Setter Property="Foreground" Value="#5860a8"/>
+
+      <Setter Property="FontSize" Value="10"/>
+
+      <Setter Property="FontWeight" Value="Bold"/>
+
+      <Setter Property="Margin" Value="0,0,0,6"/>
+
+    </Style>
+
+  </Window.Resources>
+
+  <DockPanel>
+
+    <!-- ═══ HEADER ═══════════════════════════════════════════════════════════ -->
+
+    <Border DockPanel.Dock="Top" Background="#0c0818" Padding="18,13">
+
+      <DockPanel>
+
+        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+
+          <Button x:Name="btnSettings" Content="&#9881;" Style="{StaticResource BtnGhost}"
+
+                  Padding="8,4" FontSize="13" ToolTip="App audio settings" Margin="0,0,4,0"/>
+
+          <Popup x:Name="settingsPopup" StaysOpen="False"
+
+                 PlacementTarget="{Binding ElementName=btnSettings}"
+
+                 Placement="Bottom" AllowsTransparency="True">
+
+            <Border Background="#0a0a18" BorderBrush="#2a2a44" BorderThickness="1"
+
+                    CornerRadius="5" Padding="14,12">
+
+              <StackPanel Width="280">
+
+                <TextBlock Text="APP AUDIO SETTINGS" FontSize="10" FontWeight="SemiBold"
+
+                           Foreground="#909098" Margin="0,0,0,10"/>
+
+                <DockPanel Margin="0,0,0,8">
+
+                  <TextBlock DockPanel.Dock="Left" Text="Volume" Foreground="#8080a0"
+
+                             FontSize="11" VerticalAlignment="Center" Width="56"/>
+
+                  <TextBlock x:Name="lblVolPct" DockPanel.Dock="Right"
+
+                             Text="70%" Foreground="#8080a0" FontSize="11"
+
+                             VerticalAlignment="Center" Width="32" TextAlignment="Right"/>
+
+                  <Slider x:Name="sldVolume" Minimum="0" Maximum="100" Value="70"
+
+                          TickFrequency="10" IsSnapToTickEnabled="True"
+
+                          VerticalAlignment="Center"/>
+
+                </DockPanel>
+
+                <CheckBox x:Name="chkMuteOpt" Content="Mute all sounds"
+
+                          Foreground="#8080a0" FontSize="11" Margin="0,0,0,6"/>
+
+                <CheckBox x:Name="chkMinSFX" Content="Minimal SFX  (launch + success + error only)"
+
+                          Foreground="#8080a0" FontSize="11" Margin="0,0,0,10"/>
+
+                <Button x:Name="btnTestAudio" Content="Test Audio &#9834;"
+
+                        Style="{StaticResource BtnBase}"
+
+                        Padding="10,4" FontSize="11" HorizontalAlignment="Left"/>
+
+              </StackPanel>
+
+            </Border>
+
+          </Popup>
+
+          <Button x:Name="btnMute" Content="&#9834;" Style="{StaticResource BtnGhost}"
+
+                  Padding="8,4" FontSize="14" ToolTip="Toggle audio mute"/>
+
+          <TextBlock x:Name="lblAppVer" Text="v1.0.0"
+
+                     Foreground="#8888c0" FontSize="11"
+
+                     Margin="10,0,0,0" VerticalAlignment="Center"/>
+
+        </StackPanel>
+
+        <StackPanel VerticalAlignment="Center">
+
+          <StackPanel Orientation="Horizontal">
+
+            <TextBlock Text="⚡" FontSize="19" Foreground="#e08828"
+
+                       Margin="0,0,9,0" VerticalAlignment="Center"/>
+
+            <TextBlock Text="Adramadus  D2R Fast Load"
+
+                       FontSize="18" FontWeight="Bold" Foreground="#e08828"
+
+                       VerticalAlignment="Center"/>
+
+          </StackPanel>
+
+          <TextBlock Text="Diablo II: Resurrected  ·  CASC Extraction &amp; Load Optimizer"
+
+                     FontSize="10" Foreground="#b08878" Margin="28,3,0,0"/>
+
+        </StackPanel>
+
+      </DockPanel>
+
+    </Border>
+
+    <!-- ═══ STEP INDICATOR ═══════════════════════════════════════════════════ -->
+
+    <Border DockPanel.Dock="Top" Background="#070711" Padding="28,11,28,10"
+
+            BorderBrush="#111122" BorderThickness="0,0,0,1">
+
+      <Grid>
+
+        <Grid.ColumnDefinitions>
+
+          <ColumnDefinition Width="Auto"/>
+
+          <ColumnDefinition Width="*"/>
+
+          <ColumnDefinition Width="Auto"/>
+
+          <ColumnDefinition Width="*"/>
+
+          <ColumnDefinition Width="Auto"/>
+
+          <ColumnDefinition Width="*"/>
+
+          <ColumnDefinition Width="Auto"/>
+
+          <ColumnDefinition Width="*"/>
+
+          <ColumnDefinition Width="Auto"/>
+
+          <ColumnDefinition Width="*"/>
+
+          <ColumnDefinition Width="Auto"/>
+
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+
+          <RowDefinition Height="26"/>
+
+          <RowDefinition Height="Auto"/>
+
+        </Grid.RowDefinitions>
+
+        <!-- Circles -->
+
+        <Border x:Name="stepCircle0" Grid.Column="0" Grid.Row="0"
+
+                Width="26" Height="26" CornerRadius="13"
+
+                Background="#181828" BorderBrush="#2a2a40" BorderThickness="1.5"
+
+                HorizontalAlignment="Center">
+
+          <TextBlock x:Name="stepText0" Text="1" Foreground="#7878a0"
+
+                     FontSize="10" FontWeight="Bold"
+
+                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        </Border>
+
+        <Rectangle x:Name="stepConn0" Grid.Column="1" Grid.Row="0"
+
+                   Height="2" Fill="#1a1a2a" VerticalAlignment="Center"/>
+
+        <Border x:Name="stepCircle1" Grid.Column="2" Grid.Row="0"
+
+                Width="26" Height="26" CornerRadius="13"
+
+                Background="#181828" BorderBrush="#2a2a40" BorderThickness="1.5"
+
+                HorizontalAlignment="Center">
+
+          <TextBlock x:Name="stepText1" Text="2" Foreground="#7878a0"
+
+                     FontSize="10" FontWeight="Bold"
+
+                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        </Border>
+
+        <Rectangle x:Name="stepConn1" Grid.Column="3" Grid.Row="0"
+
+                   Height="2" Fill="#1a1a2a" VerticalAlignment="Center"/>
+
+        <Border x:Name="stepCircle2" Grid.Column="4" Grid.Row="0"
+
+                Width="26" Height="26" CornerRadius="13"
+
+                Background="#181828" BorderBrush="#2a2a40" BorderThickness="1.5"
+
+                HorizontalAlignment="Center">
+
+          <TextBlock x:Name="stepText2" Text="3" Foreground="#7878a0"
+
+                     FontSize="10" FontWeight="Bold"
+
+                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        </Border>
+
+        <Rectangle x:Name="stepConn2" Grid.Column="5" Grid.Row="0"
+
+                   Height="2" Fill="#1a1a2a" VerticalAlignment="Center"/>
+
+        <Border x:Name="stepCircle3" Grid.Column="6" Grid.Row="0"
+
+                Width="26" Height="26" CornerRadius="13"
+
+                Background="#181828" BorderBrush="#2a2a40" BorderThickness="1.5"
+
+                HorizontalAlignment="Center">
+
+          <TextBlock x:Name="stepText3" Text="4" Foreground="#7878a0"
+
+                     FontSize="10" FontWeight="Bold"
+
+                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        </Border>
+
+        <Rectangle x:Name="stepConn3" Grid.Column="7" Grid.Row="0"
+
+                   Height="2" Fill="#1a1a2a" VerticalAlignment="Center"/>
+
+        <Border x:Name="stepCircle4" Grid.Column="8" Grid.Row="0"
+
+                Width="26" Height="26" CornerRadius="13"
+
+                Background="#181828" BorderBrush="#2a2a40" BorderThickness="1.5"
+
+                HorizontalAlignment="Center">
+
+          <TextBlock x:Name="stepText4" Text="5" Foreground="#7878a0"
+
+                     FontSize="10" FontWeight="Bold"
+
+                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        </Border>
+
+        <Rectangle x:Name="stepConn4" Grid.Column="9" Grid.Row="0"
+
+                   Height="2" Fill="#1a1a2a" VerticalAlignment="Center"/>
+
+        <Border x:Name="stepCircle5" Grid.Column="10" Grid.Row="0"
+
+                Width="26" Height="26" CornerRadius="13"
+
+                Background="#181828" BorderBrush="#2a2a40" BorderThickness="1.5"
+
+                HorizontalAlignment="Center">
+
+          <TextBlock x:Name="stepText5" Text="6" Foreground="#7878a0"
+
+                     FontSize="10" FontWeight="Bold"
+
+                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        </Border>
+
+        <!-- Labels -->
+
+        <TextBlock x:Name="stepLabel0" Grid.Column="0" Grid.Row="1"
+
+                   Text="Detect" HorizontalAlignment="Center"
+
+                   FontSize="9" Foreground="#33cc55" Margin="0,4,0,0"/>
+
+        <TextBlock x:Name="stepLabel1" Grid.Column="2" Grid.Row="1"
+
+                   Text="Backup" HorizontalAlignment="Center"
+
+                   FontSize="9" Foreground="#33cc55" Margin="0,4,0,0"/>
+
+        <TextBlock x:Name="stepLabel2" Grid.Column="4" Grid.Row="1"
+
+                   Text="Extract" HorizontalAlignment="Center"
+
+                   FontSize="9" Foreground="#33cc55" Margin="0,4,0,0"/>
+
+        <TextBlock x:Name="stepLabel3" Grid.Column="6" Grid.Row="1"
+
+                   Text="Configure" HorizontalAlignment="Center"
+
+                   FontSize="9" Foreground="#33cc55" Margin="0,4,0,0"/>
+
+        <TextBlock x:Name="stepLabel4" Grid.Column="8" Grid.Row="1"
+
+                   Text="Verify" HorizontalAlignment="Center"
+
+                   FontSize="9" Foreground="#33cc55" Margin="0,4,0,0"/>
+
+        <TextBlock x:Name="stepLabel5" Grid.Column="10" Grid.Row="1"
+
+                   Text="Done" HorizontalAlignment="Center"
+
+                   FontSize="9" Foreground="#33cc55" Margin="0,4,0,0"/>
+
+      </Grid>
+
+    </Border>
+
+    <!-- ═══ STATUS BAR BOTTOM ════════════════════════════════════════════════ -->
+
+    <Border DockPanel.Dock="Bottom" Background="#050509" Padding="14,5"
+
+            BorderBrush="#111122" BorderThickness="0,1,0,0">
+
+      <DockPanel>
+
+        <ProgressBar x:Name="progBar" DockPanel.Dock="Right"
+
+                     Width="170" Height="4"
+
+                     Minimum="0" Maximum="100" Value="0"
+
+                     Background="#0e0e1c" Foreground="#e08828"
+
+                     VerticalAlignment="Center"/>
+
+        <TextBlock x:Name="sbLogLink" Foreground="#9090c0" FontSize="10"
+
+                   VerticalAlignment="Center" DockPanel.Dock="Right"
+
+                   Margin="0,0,14,0" Cursor="Hand" TextDecorations="Underline"
+
+                   ToolTip="Open log folder" Text=""/>
+
+        <TextBlock x:Name="sbTimer" Foreground="#9090c0" FontSize="10"
+
+                   FontFamily="Consolas" VerticalAlignment="Center"
+
+                   DockPanel.Dock="Right" Margin="0,0,10,0"/>
+
+        <TextBlock x:Name="sbStatus" Text="Ready"
+
+                   Foreground="#33cc55" FontSize="11" VerticalAlignment="Center"/>
+
+      </DockPanel>
+
+    </Border>
+
+    <!-- ═══ MAIN SCROLL ═══════════════════════════════════════════════════════ -->
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0d0d1a">
+
+      <StackPanel Margin="16,14,16,16">
+
+        <!-- ── INSTALL DETECTION CARD ─────────────────────────────────────── -->
+
+        <Border Background="#0a0a16" BorderBrush="#222238"
+
+                BorderThickness="1" CornerRadius="4"
+
+                Padding="14,12" Margin="0,0,0,14">
+
+          <Grid>
+
+            <Grid.ColumnDefinitions>
+
+              <ColumnDefinition Width="*"/>
+
+              <ColumnDefinition Width="Auto"/>
+
+              <ColumnDefinition Width="Auto"/>
+
+              <ColumnDefinition Width="Auto"/>
+
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+
+              <TextBlock Text="D2R INSTALL LOCATION" Foreground="#7878b0"
+
+                         FontSize="9" FontWeight="Bold" Margin="0,0,0,5"/>
+
+              <TextBox x:Name="txtPath" Background="Transparent" Foreground="#d0d0e8"
+
+                       BorderThickness="0" FontFamily="Consolas" FontSize="12"
+
+                       Padding="0" CaretBrush="#e08828" SelectionBrush="#e08828"/>
+
+              <TextBlock x:Name="lblD2RInfo" Text="" Foreground="#33cc55"
+
+                         FontSize="10" Margin="0,4,0,0"/>
+
+            </StackPanel>
+
+            <Button x:Name="btnScan" Grid.Column="1" Content="Scan"
+
+                    Style="{StaticResource BtnBase}"
+
+                    Margin="10,0,0,0" Padding="10,5" FontSize="11"/>
+
+            <Button x:Name="btnBrowse" Grid.Column="2" Content="Browse"
+
+                    Style="{StaticResource BtnBase}"
+
+                    Margin="6,0,0,0" Padding="10,5" FontSize="11"/>
+
+            <Ellipse x:Name="ellInstall" Grid.Column="3"
+
+                     Width="8" Height="8" Fill="#252540"
+
+                     Margin="12,0,2,0" VerticalAlignment="Center"
+
+                     ToolTip="Install valid"/>
+
+          </Grid>
+
+        </Border>
+
+        <!-- ── D2R LOADER BANNER ─────────────────────────────────────────── -->
+
+        <Border x:Name="pnlD2RLoader" Background="#0a0a20" BorderBrush="#303070"
+
+                BorderThickness="1" CornerRadius="4" Padding="12,8"
+
+                Margin="0,0,0,12" Visibility="Collapsed">
+
+          <DockPanel>
+
+            <TextBlock DockPanel.Dock="Left" Text="D2RL" Foreground="#5060b0"
+
+                       FontWeight="Bold" FontSize="11"
+
+                       VerticalAlignment="Center" Margin="0,0,10,0"/>
+
+            <StackPanel>
+
+              <TextBlock x:Name="lblD2RLoader" Foreground="#5060b0"
+
+                         TextWrapping="Wrap" FontSize="11"/>
+
+              <TextBlock Foreground="#33cc55" FontSize="10" TextWrapping="Wrap" Margin="0,3,0,0"
+
+                         Text="TIP: Set -direct -txt in D2R Loader config.xml or via per-instance shortcut args. Settings.json changes (VSync, FPS Cap) apply to all instances automatically."/>
+
+            </StackPanel>
+
+          </DockPanel>
+
+        </Border>
+
+        <!-- ── HW PROFILE BANNER ──────────────────────────────────────────── -->
+
+        <Border x:Name="pnlHW" Background="#001220" BorderBrush="#004466"
+
+                BorderThickness="1" CornerRadius="4" Padding="12,8"
+
+                Margin="0,0,0,12" Visibility="Collapsed">
+
+          <DockPanel>
+
+            <TextBlock DockPanel.Dock="Left" Text="HW" Foreground="#0090cc"
+
+                       FontWeight="Bold" FontSize="11"
+
+                       VerticalAlignment="Center" Margin="0,0,10,0"/>
+
+            <TextBlock x:Name="lblHW" Text="" Foreground="#3898c0"
+
+                       TextWrapping="Wrap" FontSize="11"/>
+
+          </DockPanel>
+
+        </Border>
+
+        <!-- ── WARNING BANNER ─────────────────────────────────────────────── -->
+
+        <Border x:Name="pnlWarning" Background="#1e0c00" BorderBrush="#c05808"
+
+                BorderThickness="1" CornerRadius="4" Padding="12,8"
+
+                Margin="0,0,0,12" Visibility="Collapsed">
+
+          <DockPanel>
+
+            <TextBlock DockPanel.Dock="Left" Text="⚠" Foreground="#d06010"
+
+                       FontWeight="Bold" FontSize="14"
+
+                       VerticalAlignment="Center" Margin="0,0,10,0"/>
+
+            <TextBlock x:Name="lblWarning" Text="" Foreground="#d08028"
+
+                       TextWrapping="Wrap" FontSize="12"/>
+
+          </DockPanel>
+
+        </Border>
+
+        <!-- ── RAM DISK BANNER ────────────────────────────────────────────── -->
+
+        <Border x:Name="pnlRamDisk" Background="#001a10" BorderBrush="#00804a"
+
+                BorderThickness="1" CornerRadius="4" Padding="12,8"
+
+                Margin="0,0,0,12" Visibility="Collapsed">
+
+          <DockPanel>
+
+            <TextBlock DockPanel.Dock="Left" Text="RAM" Foreground="#00c070"
+
+                       FontWeight="Bold" FontSize="11"
+
+                       VerticalAlignment="Center" Margin="0,0,10,0"/>
+
+            <StackPanel>
+
+              <TextBlock x:Name="lblRamDisk" Text="" Foreground="#30c870"
+
+                         TextWrapping="Wrap" FontSize="11"/>
+
+              <Button x:Name="btnRamDisk" Content="Setup RAM Disk  (imdisk + mklink)"
+
+                      Style="{StaticResource BtnGreen}"
+
+                      Margin="0,6,0,0" HorizontalAlignment="Left"
+
+                      Padding="10,4" FontSize="11"/>
+
+            </StackPanel>
+
+          </DockPanel>
+
+        </Border>
+
+        <!-- ── CURRENT STATUS ─────────────────────────────────────────────── -->
+
+        <TextBlock Text="CURRENT STATUS" Style="{StaticResource SectionLabel}"/>
+
+        <Border Background="#080810" BorderBrush="#1c1c30" BorderThickness="1"
+
+                CornerRadius="4" Padding="14,10" Margin="0,0,0,14">
+
+          <StackPanel>
+
+            <!-- Row 1: Extraction | -direct -txt | VSync -->
+
+            <Grid>
+
+              <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="*"/>
+
+                <ColumnDefinition Width="1"/>
+
+                <ColumnDefinition Width="*"/>
+
+                <ColumnDefinition Width="1"/>
+
+                <ColumnDefinition Width="*"/>
+
+              </Grid.ColumnDefinitions>
+
+              <!-- Extraction -->
+
+              <StackPanel Grid.Column="0" Margin="0,0,10,0">
+
+                <TextBlock Text="EXTRACTION" Foreground="#8888c8"
+
+                           FontSize="9" FontWeight="Bold" Margin="0,0,0,4"/>
+
+                <TextBlock x:Name="lblExtStatus" Text="---" FontSize="13" Margin="0,0,0,2"/>
+
+                <TextBlock x:Name="lblExtDetail" Text="" Foreground="#33cc55"
+
+                           FontSize="10" TextWrapping="Wrap"/>
+
+              </StackPanel>
+
+              <Rectangle Grid.Column="1" Fill="#1c1c30" Width="1"/>
+
+              <!-- -direct -txt -->
+
+              <StackPanel Grid.Column="2" Margin="10,0">
+
+                <TextBlock Text="-DIRECT -TXT" Foreground="#8888c8"
+
+                           FontSize="9" FontWeight="Bold" Margin="0,0,0,4"/>
+
+                <TextBlock x:Name="lblDirectStatus" Text="---" FontSize="13" Margin="0,0,0,2"/>
+
+                <TextBlock x:Name="lblDirectDetail" Text="" Foreground="#33cc55" FontSize="10"/>
+
+              </StackPanel>
+
+              <Rectangle Grid.Column="3" Fill="#1c1c30" Width="1"/>
+
+              <!-- VSync -->
+
+              <StackPanel Grid.Column="4" Margin="10,0,0,0">
+
+                <TextBlock Text="VSYNC" Foreground="#8888c8"
+
+                           FontSize="9" FontWeight="Bold" Margin="0,0,0,4"/>
+
+                <TextBlock x:Name="lblVsyncStatus" Text="---" FontSize="13" Margin="0,0,0,2"/>
+
+                <TextBlock x:Name="lblVsyncDetail" Text="" Foreground="#33cc55" FontSize="10"/>
+
+              </StackPanel>
+
+            </Grid>
+
+            <Rectangle Height="1" Fill="#111122" Margin="0,8,0,8"/>
+
+            <!-- Row 2: FPS Cap | Firewall | Launch Args -->
+
+            <Grid>
+
+              <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="*"/>
+
+                <ColumnDefinition Width="1"/>
+
+                <ColumnDefinition Width="*"/>
+
+                <ColumnDefinition Width="1"/>
+
+                <ColumnDefinition Width="*"/>
+
+              </Grid.ColumnDefinitions>
+
+              <!-- FPS Cap -->
+
+              <StackPanel Grid.Column="0" Margin="0,0,10,0">
+
+                <TextBlock Text="FPS CAP" Foreground="#8888c8"
+
+                           FontSize="9" FontWeight="Bold" Margin="0,0,0,4"/>
+
+                <TextBlock x:Name="lblFPSStatus" Text="---" FontSize="13" Margin="0,0,0,2"/>
+
+                <TextBlock x:Name="lblFPSDetail" Text="" Foreground="#33cc55" FontSize="10"/>
+
+              </StackPanel>
+
+              <Rectangle Grid.Column="1" Fill="#1c1c30" Width="1"/>
+
+              <!-- Firewall -->
+
+              <StackPanel Grid.Column="2" Margin="10,0">
+
+                <TextBlock Text="FIREWALL" Foreground="#8888c8"
+
+                           FontSize="9" FontWeight="Bold" Margin="0,0,0,4"/>
+
+                <TextBlock x:Name="lblFWStatus" Text="---" FontSize="13" Margin="0,0,0,2"/>
+
+                <TextBlock x:Name="lblFWDetail" Text="" Foreground="#33cc55" FontSize="10"/>
+
+              </StackPanel>
+
+              <Rectangle Grid.Column="3" Fill="#1c1c30" Width="1"/>
+
+              <!-- Active Launch Args -->
+
+              <StackPanel Grid.Column="4" Margin="10,0,0,0">
+
+                <TextBlock Text="LAUNCH ARGS" Foreground="#8888c8"
+
+                           FontSize="9" FontWeight="Bold" Margin="0,0,0,4"/>
+
+                <TextBlock x:Name="lblArgsStatus" Text="---" FontSize="11"
+
+                           Foreground="#33cc55" TextWrapping="Wrap" FontFamily="Consolas"/>
+
+              </StackPanel>
+
+            </Grid>
+
+          </StackPanel>
+
+        </Border>
+
+        <!-- ── OPTIONS ────────────────────────────────────────────────────── -->
+
+        <TextBlock Text="OPTIONS" Style="{StaticResource SectionLabel}"/>
+
+        <Border Background="#080810" BorderBrush="#1c1c30"
+
+                BorderThickness="1" CornerRadius="4"
+
+                Padding="14,12" Margin="0,0,0,14">
+
+          <StackPanel>
+
+            <!-- QUICK SELECT -->
+
+            <DockPanel Margin="0,0,0,14">
+
+              <TextBlock Text="Quick Select:" VerticalAlignment="Center"
+
+                         Foreground="#7878b0" FontSize="10" FontWeight="Bold" Margin="0,0,10,0"/>
+
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                <Button x:Name="btnSelectAll" Content="Select All"
+
+                        Margin="0,0,6,0" Padding="12,4" FontSize="10"
+
+                        Background="#12122a" BorderBrush="#3a3a60" Foreground="#a0a0d0"
+
+                        Cursor="Hand"/>
+
+                <Button x:Name="btnClearAll" Content="Clear All"
+
+                        Padding="12,4" FontSize="10"
+
+                        Background="#12122a" BorderBrush="#2a2a40" Foreground="#7878b0"
+
+                        Cursor="Hand"/>
+
+              </StackPanel>
+
+            </DockPanel>
+
+            <!-- ▸ PERFORMANCE (Settings.json) -->
+
+            <TextBlock Text="PERFORMANCE  ·  Settings.json" Foreground="#7878b0"
+
+                       FontSize="9" FontWeight="Bold" Margin="0,0,0,8"/>
+
+            <CheckBox x:Name="chkVSync" Margin="0,0,0,8" IsChecked="True">
+
+              <StackPanel Margin="6,0,0,0">
+
+                <TextBlock Text="Disable VSync" FontWeight="SemiBold" Foreground="#c8c8e0"/>
+
+                <TextBlock Foreground="#33cc55" FontSize="10" TextWrapping="Wrap" Margin="0,2,0,0"
+
+                   Text="VSync=0. Uncaps FPS on load screens (400-500 fps). Load speed scales with framerate. May cause screen tearing in-game."/>
+
+              </StackPanel>
+
+            </CheckBox>
+
+            <CheckBox x:Name="chkFPSCap" Margin="0,0,0,8" IsChecked="True">
+
+              <StackPanel Margin="6,0,0,0">
+
+                <TextBlock Text="Disable Framerate Cap  ⚡ (critical)" FontWeight="SemiBold" Foreground="#e09030"/>
+
+                <TextBlock Foreground="#33cc55" FontSize="10" TextWrapping="Wrap" Margin="0,2,0,0"
+
+                   Text="Framerate Cap=0. Even a small cap (e.g. 60 fps) drastically increases load times. This is the #1 hidden cause of slow loads. Keep uncapped for minimum load times."/>
+
+              </StackPanel>
+
+            </CheckBox>
+
+            <CheckBox x:Name="chkReduceGfx" Margin="0,0,0,8" IsChecked="False">
+
+              <StackPanel Margin="6,0,0,0">
+
+                <TextBlock Text="Reduce Graphics Quality  (Texture/Shadow/AA → Low)" FontWeight="SemiBold" Foreground="#c8c8e0"/>
+
+                <TextBlock Foreground="#33cc55" FontSize="10" TextWrapping="Wrap" Margin="0,2,0,0"
+
+                   Text="Sets Texture Quality=0, Shadow Quality=0, Anti-Aliasing=0, Light Quality=0. Improves FPS during gameplay. Does not affect load times significantly."/>
+
+              </StackPanel>
+
+            </CheckBox>
+
+            <Rectangle Height="1" Fill="#111122" Margin="0,4,0,12"/>
+
+            <!-- ▸ LAUNCH ARGUMENTS (Battle.net.config) -->
+
+            <TextBlock Text="LAUNCH ARGUMENTS  ·  Battle.net.config" Foreground="#7878b0"
+
+                       FontSize="9" FontWeight="Bold" Margin="0,0,0,8"/>
+
+            <CheckBox x:Name="chkDirect" IsChecked="True" Margin="0,0,0,8">
+
+              <StackPanel Margin="6,0,0,0">
+
+                <TextBlock Text="Enable -direct -txt  ⚡ (core - required for fast loads)" FontWeight="SemiBold" Foreground="#e09030"/>
+
+                <TextBlock Foreground="#33cc55" FontSize="10" TextWrapping="Wrap" Margin="0,2,0,0"
+
+                   Text="Loads game data from extracted loose files instead of CASC archives. Largest single load time reduction. Re-extract after every game patch."/>
+
+              </StackPanel>
+
+            </CheckBox>
+
+            <CheckBox x:Name="chkNoSound" IsChecked="False" Margin="0,0,0,8">
+
+              <StackPanel Margin="6,0,0,0">
+
+                <TextBlock Text="No Sound on Launch  (-ns)" FontWeight="SemiBold" Foreground="#c8c8e0"/>
+
+                <TextBlock Foreground="#33cc55" FontSize="10" TextWrapping="Wrap" Margin="0,2,0,0"
+
+                   Text="Skips audio driver initialization on startup. Can significantly reduce initial game launch time, especially on HDD or low-end audio hardware."/>
+
+              </StackPanel>
+
+            </CheckBox>
+
+            <CheckBox x:Name="chkRespec" IsChecked="False" Margin="0,0,0,8">
+
+              <StackPanel Margin="6,0,0,0">
+
+                <TextBlock Text="Enable Free Respec  (-enablerespec)" FontWeight="SemiBold" Foreground="#c8c8e0"/>
+
+                <TextBlock Foreground="#33cc55" FontSize="10" TextWrapping="Wrap" Margin="0,2,0,0"
+
+                   Text="ALT+click stat/skill add button to respec offline characters freely. Offline only - safe to always include for single-player."/>
+
+              </StackPanel>
+
+            </CheckBox>
+
+            <DockPanel Margin="0,0,0,8">
+
+              <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Top" Margin="10,0,0,0">
+
+                <TextBlock Text="Players:" Foreground="#8080a0" FontSize="11"
+
+                           VerticalAlignment="Center" Margin="0,0,8,0"/>
+
+                <ComboBox x:Name="cmbPlayers" Width="96" SelectedIndex="0"
+
+                          Background="#121220" Foreground="#c0c0d0"
+
+                          BorderBrush="#35355a"/>
+
+              </StackPanel>
+
+              <StackPanel>
+
+                <TextBlock Text="Auto-Set Player Count  (-players N)" FontWeight="SemiBold" Foreground="#c8c8e0"/>
+
+                <TextBlock Foreground="#33cc55" FontSize="10" TextWrapping="Wrap" Margin="0,2,0,0"
+
+                   Text="Adds -players N to launch args. Simulates N-player difficulty - scales monster HP/XP/drops. -players 8 = max drops. Offline only."/>
+
+              </StackPanel>
+
+            </DockPanel>
+
+            <Rectangle Height="1" Fill="#111122" Margin="0,4,0,12"/>
+
+            <!-- ▸ EXTRACTION OPTIONS (run during Extract+Optimize) -->
+
+            <TextBlock Text="EXTRACTION OPTIONS  ·  run during Extract + Optimize" Foreground="#7878b0"
+
+                       FontSize="9" FontWeight="Bold" Margin="0,0,0,8"/>
+
+            <CheckBox x:Name="chkSDOnly" IsChecked="False" Margin="0,0,0,8">
+
+              <StackPanel Margin="6,0,0,0">
+
+                <TextBlock Text="SD Graphics Only  (skip hd\ folder - saves 37 GB)" FontWeight="SemiBold" Foreground="#c8c8e0"/>
+
+                <TextBlock Foreground="#33cc55" FontSize="10" TextWrapping="Wrap" Margin="0,2,0,0"
+
+                   Text="Removes Data\hd\ after extraction. Game uses SD textures; HD assets fall back to CASC. ~37 GB disk saved. Recommended for HDD or tight space."/>
+
+              </StackPanel>
+
+            </CheckBox>
+
+            <CheckBox x:Name="chkDeleteHDFiles" IsChecked="False" Margin="0,0,0,8">
+
+              <StackPanel Margin="6,0,0,0">
+
+                <TextBlock Text="Delete HD .model + .texture Files  (load speed boost)" FontWeight="SemiBold" Foreground="#c8c8e0"/>
+
+                <TextBlock Foreground="#33cc55" FontSize="10" TextWrapping="Wrap" Margin="0,2,0,0"
+
+                   Text="Deletes ~9031 .model and ~3758 .texture files from Data\hd\. Reduces file-system reads during loading. Near-instant waypoint transitions reported. Requires re-extraction to reverse."/>
+
+              </StackPanel>
+
+            </CheckBox>
+
+            <CheckBox x:Name="chkDeleteLobby" IsChecked="False" Margin="0,0,0,8">
+
+              <StackPanel Margin="6,0,0,0">
+
+                <TextBlock Text="Delete Lobby UI Folder  (saves 320 MB)" FontWeight="SemiBold" Foreground="#c8c8e0"/>
+
+                <TextBlock Foreground="#33cc55" FontSize="10" TextWrapping="Wrap" Margin="0,2,0,0"
+
+                   Text="Removes Data\hd\global\ui\lobby\. Unused in offline mode. Reduces total data footprint. Safe for offline-only play."/>
+
+              </StackPanel>
+
+            </CheckBox>
+
+            <CheckBox x:Name="chkAudioDegrade" IsChecked="False" Margin="0,0,0,8">
+
+              <StackPanel Margin="6,0,0,0">
+
+                <TextBlock Text="Downgrade Audio  (FLAC → MP3 128kbps)" FontWeight="SemiBold" Foreground="#c8c8e0"/>
+
+                <TextBlock Foreground="#33cc55" FontSize="10" TextWrapping="Wrap" Margin="0,2,0,0"
+
+                   Text="Converts FLAC audio to 128kbps MP3 (~65% smaller). FMOD reads by header so .flac extension is kept. Requires ffmpeg in PATH. Non-reversible without re-extraction."/>
+
+              </StackPanel>
+
+            </CheckBox>
+
+            <Rectangle Height="1" Fill="#111122" Margin="0,4,0,12"/>
+
+            <!-- ▸ NETWORK -->
+
+            <TextBlock Text="NETWORK" Foreground="#7878b0"
+
+                       FontSize="9" FontWeight="Bold" Margin="0,0,0,8"/>
+
+            <CheckBox x:Name="chkFirewall" IsChecked="False" Margin="0,0,0,8">
+
+              <StackPanel Margin="6,0,0,0">
+
+                <TextBlock Text="Block Battle.net Connections  (Windows Firewall)" FontWeight="SemiBold" Foreground="#c8c8e0"/>
+
+                <TextBlock Foreground="#33cc55" FontSize="10" TextWrapping="Wrap" Margin="0,2,0,0"
+
+                   Text="Adds outbound firewall rule blocking D2R.exe. Eliminates per-launch Battle.net connection delay and in-game server pings. Uncheck and click Apply to remove the rule."/>
+
+              </StackPanel>
+
+            </CheckBox>
+
+          </StackPanel>
+
+        </Border>
+
+        <!-- ── ACTIONS ────────────────────────────────────────────────────── -->
+
+        <TextBlock Text="ACTIONS" Style="{StaticResource SectionLabel}"/>
+
+        <Grid Margin="0,0,0,14">
+
+          <Grid.ColumnDefinitions>
+
+            <ColumnDefinition Width="*"/>
+
+            <ColumnDefinition Width="8"/>
+
+            <ColumnDefinition Width="*"/>
+
+          </Grid.ColumnDefinitions>
+
+          <Grid.RowDefinitions>
+
+            <RowDefinition Height="Auto"/>
+
+            <RowDefinition Height="8"/>
+
+            <RowDefinition Height="Auto"/>
+
+            <RowDefinition Height="8"/>
+
+            <RowDefinition Height="Auto"/>
+
+          </Grid.RowDefinitions>
+
+          <!-- Extract + Optimize -->
+
+          <Button x:Name="btnExtract" Grid.Column="0" Grid.Row="0"
+
+                  Style="{StaticResource BtnAccent}" Height="54">
+
+            <StackPanel>
+
+              <TextBlock Text="Extract + Optimize" FontSize="13" HorizontalAlignment="Center"/>
+
+              <TextBlock Text="~65 min  |  42 GB disk  |  D2R must be closed"
+
+                         FontSize="9" HorizontalAlignment="Center" Opacity="0.7" Margin="0,2,0,0"/>
+
+            </StackPanel>
+
+          </Button>
+
+          <!-- Apply Settings Only -->
+
+          <Button x:Name="btnApply" Grid.Column="2" Grid.Row="0"
+
+                  Style="{StaticResource BtnTeal}" Height="54">
+
+            <StackPanel>
+
+              <TextBlock Text="Apply Settings Only" FontSize="13" HorizontalAlignment="Center"/>
+
+              <TextBlock Text="~5 sec  |  VSync · FPS Cap · Firewall · Launch Args"
+
+                         FontSize="9" HorizontalAlignment="Center" Opacity="0.7" Margin="0,2,0,0"/>
+
+            </StackPanel>
+
+          </Button>
+
+          <!-- Revert Everything -->
+
+          <Button x:Name="btnRevert" Grid.Column="0" Grid.Row="2"
+
+                  Style="{StaticResource BtnRed}" Height="44">
+
+            <TextBlock Text="↩  Revert Everything" HorizontalAlignment="Center"/>
+
+          </Button>
+
+          <!-- Verify State -->
+
+          <Button x:Name="btnVerify" Grid.Column="2" Grid.Row="2"
+
+                  Style="{StaticResource BtnGreen}" Height="44">
+
+            <TextBlock Text="✓  Verify State" HorizontalAlignment="Center"/>
+
+          </Button>
+
+          <!-- Open Logs -->
+
+          <Button x:Name="btnLogs" Grid.Column="0" Grid.Row="4"
+
+                  Grid.ColumnSpan="3"
+
+                  Style="{StaticResource BtnBase}" Padding="14,10"
+
+                  Content="Open Logs Folder"/>
+
+        </Grid>
+
+        <!-- ── LOG OUTPUT ─────────────────────────────────────────────────── -->
+
+        <TextBlock Text="LOG" Style="{StaticResource SectionLabel}"/>
+
+        <TextBox x:Name="txtLog" Height="170"
+
+                 Background="#050508" Foreground="#4a9a4a"
+
+                 BorderBrush="#1a1a2a" BorderThickness="1"
+
+                 FontFamily="Consolas" FontSize="11"
+
+                 IsReadOnly="True" TextWrapping="Wrap"
+
+                 VerticalScrollBarVisibility="Auto" Padding="8"/>
+
+      </StackPanel>
+
+    </ScrollViewer>
+
+  </DockPanel>
+
+</Window>
